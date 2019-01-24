@@ -42,7 +42,7 @@ public class WebLogAspect {
         // 记录下请求内容
         logger.info("CLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
         logger.info("URL : " + request.getRequestURL().toString());
-        logger.info("HTTP_METHOD : " + request.getMethod());
+        logger.info("HTT  P_METHOD : " + request.getMethod());
         logger.info("IP : " + request.getRemoteAddr());
         logger.info("ARGS : " + Arrays.toString(joinPoint.getArgs()));
     }
@@ -55,11 +55,15 @@ public class WebLogAspect {
 
     /**
      * 后置异常通知
-     * @param jp
+     * @param e
+     * @throws Throwable
      */
     @AfterThrowing(pointcut = "webLog()", throwing = "e")
-    public void throwServerException(JoinPoint jp, Throwable e) throws Throwable{
-        logger.error("EXCEPTION_INFO : " + e.getMessage());
+    public void throwServerException(JoinPoint joinPoint, Throwable e) throws Throwable{
+        // 获得目标方法名
+        String name = joinPoint.getSignature().getName();
+        logger.info("<=============" + name + "方法--AOP 后置返回通知=============>");
+        logger.info(name + "方法返回参数：" + e.getMessage());
     }
 
     /**
@@ -77,14 +81,19 @@ public class WebLogAspect {
      * @return
      */
     @Around("webLog()")
-    public Object arround(ProceedingJoinPoint pjp) {
-        try {
-            Object o =  pjp.proceed();
-            return o;
-        } catch (Throwable e) {
-            e.printStackTrace();
-            return null;
+    public Object arround(ProceedingJoinPoint pjp) throws Throwable{
+        // 获得目标方法名
+        String name = pjp.getSignature().getName();
+        logger.info("<=============" + name + "方法--AOP 环绕通知=============>");
+        long start = System.currentTimeMillis();
+        Object result = null;
+        result = pjp.proceed();
+        long end = System.currentTimeMillis();
+        if (logger.isInfoEnabled()) {
+            logger.info("around " + pjp + "\tUse time : "
+                    + (end - start) + " ms!");
         }
+        return result;
     }
 
 

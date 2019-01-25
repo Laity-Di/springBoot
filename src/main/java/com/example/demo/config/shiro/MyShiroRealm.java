@@ -1,5 +1,14 @@
 package com.example.demo.config.shiro;
 
+import com.example.demo.foundation.entity.User;
+import com.example.demo.foundation.mapper.UserDao;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.beans.factory.annotation.Autowired;
+
 /**
  * @author: Ryan
  * @since: 2018/11/13 16:36
@@ -7,50 +16,56 @@ package com.example.demo.config.shiro;
  * @modifyTime:
  * @modifier:
  */
-public class MyShiroRealm {
+public class MyShiroRealm extends AuthorizingRealm {
 
+    @Autowired
+    private UserDao userDao;
 
-//    @Override
-//    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-//
-//        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-//        User userInfo = (User) principals.getPrimaryPrincipal();
-//        for (SysRole role : userInfo.getRoleList()) {
-//            authorizationInfo.addRole(role.getRole());
-//            for (SysPermission p : role.getPermissions()) {
-//                authorizationInfo.addStringPermission(p.getPermission());
-//            }
-//        }
-//        return authorizationInfo;
-//    }
-//
-//    /**
-//     * 主要是用来进行身份认证的，也就是说验证用户输入的账号和密码是否正确。
-//     * @param token
-//     * @return
-//     * @throws AuthenticationException
-//     */
-//    @Override
-//    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token)
-//            throws AuthenticationException {
-//        //获取用户的输入的账号.
-//        String username = (String) token.getPrincipal();
-//        //通过username从数据库中查找 User对象，如果找到，没找到.
-//        //实际项目中，这里可以根据实际情况做缓存，如果不做
-//        // Shiro自己也是有时间间隔机制，2分钟内不会重复执行该方法
-//        User userInfo = userInfoService.findByUsername(username);
-//        if (userInfo == null) {
-//            return null;
-//        }
-//        if (userInfo.getState() == 1) {
-//            throw new LockedAccountException();
-//        }
-//        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-//                userInfo,
-//                userInfo.getPassword(),
-//                ByteSource.Util.bytes(userInfo.getCredentialsSalt()),
-//                getName()
-//        );
-//        return authenticationInfo;
-//    }
+    /**
+     * 登录认证处理方法
+     * @param authenticationToken
+     * @return
+     * @throws AuthenticationException
+     */
+    @Override
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+
+        UsernamePasswordToken token=(UsernamePasswordToken) authenticationToken;
+        User user=new User();
+        if(!token.getUsername().equals("")){
+            user =(User) userDao.getUserInfo(token.getUsername());
+        }
+        if(!user.getName().equals(token.getUsername())){
+            return null;
+        }else {
+            //这个参数是给login回传的信息。不是类对象什么的。
+            SimpleAuthenticationInfo simpleAuthenticationInfo=new SimpleAuthenticationInfo(
+                    user.getName(),
+                    user.getPassword(),
+                    getName());
+            return simpleAuthenticationInfo;
+        }
+    }
+
+    /**
+     * 权限验证处理方法
+     * @param principalCollection
+     * @return
+     */
+    @Override
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+
+        // 这个值是认证方法中的SimpleAuthenticationInfo对象的第一个参数的值即user.getUsername()
+        String username=(String) principalCollection.getPrimaryPrincipal();
+
+        System.out.print(username+">>>执行了授权方法\n");
+
+        SimpleAuthorizationInfo simpleAuthorizationInfo=new SimpleAuthorizationInfo();
+        //可以根据username查询数据库改用户所有角色,可以根据username查询数据库改用户所有资源权限
+        simpleAuthorizationInfo.addRole("admin");
+        simpleAuthorizationInfo.addStringPermission("news");
+
+        return simpleAuthorizationInfo;
+    }
 }
+

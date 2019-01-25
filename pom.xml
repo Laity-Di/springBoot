@@ -47,8 +47,6 @@
 			<version>2.0.4.RELEASE</version>
 		</dependency>
 
-
-
 		<!--AOP配置 start-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -62,21 +60,13 @@
 			<version>4.3.6</version>
 		</dependency>
 
-
-		<!--&lt;!&ndash;shiro start&ndash;&gt;-->
-		<!--<dependency>-->
-			<!--<groupId>org.apache.shiro</groupId>-->
-			<!--<artifactId>shiro-spring</artifactId>-->
-			<!--<version>1.4.0</version>-->
-		<!--</dependency>-->
-		<!--&lt;!&ndash;shiro end&ndash;&gt;-->
-
-		<!--Json start-->
+		<!--shiro start-->
 		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-spring</artifactId>
+			<version>1.4.0</version>
 		</dependency>
-		<!--Json end-->
+		<!--shiro end-->
 
 		<!-- mybatis start-->
 		<dependency>
@@ -118,11 +108,6 @@
 			<artifactId>druid</artifactId>
 			<version>1.1.5</version>
 		</dependency>
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>fastjson</artifactId>
-			<version>1.2.47</version>
-		</dependency>
 
 		<!--log4j start-->
 		<dependency>
@@ -148,6 +133,18 @@
 			<version>3.8</version>
 		</dependency>
 
+		<!--Json start-->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.47</version>
+		</dependency>
+		<!--Json end-->
+
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -155,17 +152,13 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>5.0.8.RELEASE</version>
-		</dependency>
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 		</dependency>
 
 	</dependencies>
+
 
 	<profiles>
 		<profile>
@@ -194,7 +187,6 @@
 			</properties>
 		</profile>
 	</profiles>
-
 
 	<build>
 		<resources>

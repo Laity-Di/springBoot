@@ -1,4 +1,4 @@
-package com.example.demo.config.shiro;
+package com.example.demo.config.security.shiro;
 
 import com.example.demo.foundation.entity.User;
 import com.example.demo.foundation.mapper.UserDao;

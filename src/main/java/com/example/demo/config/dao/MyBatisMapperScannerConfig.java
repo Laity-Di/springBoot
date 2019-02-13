@@ -21,11 +21,11 @@ public class MyBatisMapperScannerConfig {
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
         mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
         mapperScannerConfigurer.setBasePackage("com.example.demo.foundation.mapper");
-        Properties properties = new Properties();
-        properties.setProperty("mappers", "com.example.demo.foundation.BaseDao");
-        properties.setProperty("notEmpty", "false");
-        properties.setProperty("IDENTITY", "MYSQL");
-        mapperScannerConfigurer.setProperties(properties);
+//        Properties properties = new Properties();
+//        properties.setProperty("mappers", "com.example.demo.foundation.BaseDao");
+//        properties.setProperty("notEmpty", "false");
+//        properties.setProperty("IDENTITY", "MYSQL");
+//        mapperScannerConfigurer.setProperties(properties);
         return mapperScannerConfigurer;
     }
 }

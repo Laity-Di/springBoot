@@ -27,4 +27,18 @@ public interface UserDao extends BaseDao<User> {
             @Result(column = "phone", property = "phone")
     })
     Map<String, Object> getUserInfo(@Param("userId") String userId);
+
+    /**
+     * 用户登录使用接口
+     * @param userName
+     * @param password
+     * @return
+     */
+    @Select("SELECT id, user_name, phone FROM `sys_user` where user_name = #{userName} and password = #{password}")
+    @Results({
+            @Result(column = "id", property = "id"),
+            @Result(column = "user_name", property = "userName"),
+            @Result(column = "phone", property = "phone")
+    })
+    User userLogin(@Param("userName") String userName, @Param("password") String password);
 }

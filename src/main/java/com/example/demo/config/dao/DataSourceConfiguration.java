@@ -141,16 +141,4 @@ public class DataSourceConfiguration {
         return transactionManager;
     }
 
-
-    /**
-     * shiro数据源
-     * @return
-     */
-    @Bean(name = "shiroDataSource")
-    @Qualifier("shiroDataSource")
-    @ConfigurationProperties(prefix="spring.datasource.shiro")
-    public DataSource shiroDataSource() {
-        return DataSourceBuilder.create().build();
-    }
-
 }

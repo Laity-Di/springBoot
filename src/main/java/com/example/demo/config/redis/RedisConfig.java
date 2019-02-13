@@ -28,7 +28,8 @@ import java.util.Map;
  */
 @Configuration
 @EnableCaching
-public class RedisConfig extends CachingConfigurerSupport {
+// extends CachingConfigurerSupport
+public class RedisConfig {
 
     /**
      * 重写Redis序列化方式，使用Json方式:
@@ -40,53 +41,53 @@ public class RedisConfig extends CachingConfigurerSupport {
      * @param redisConnectionFactory
      * @return
      */
-    @Bean
-    @ConditionalOnMissingBean(name = "redisTemplate")
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
-        redisTemplate.setConnectionFactory(redisConnectionFactory);
-        FastJsonRedisSerializer<Object> fastJsonRedisSerializer = new FastJsonRedisSerializer<>(Object.class);
-        // 建议使用这种方式，小范围指定白名单
-        ParserConfig.getGlobalInstance().addAccept("cn.com.meilike.mini.college.");
-        // 设置值（value）的序列化采用FastJsonRedisSerializer。
-        redisTemplate.setValueSerializer(fastJsonRedisSerializer);
-        redisTemplate.setHashValueSerializer(fastJsonRedisSerializer);
-        // 设置键（key）的序列化采用StringRedisSerializer。
-        redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
-        redisTemplate.afterPropertiesSet();
-        return redisTemplate;
-    }
-    @Bean
-    @ConditionalOnMissingBean(StringRedisTemplate.class)
-    public StringRedisTemplate stringRedisTemplate(
-            RedisConnectionFactory redisConnectionFactory) {
-        StringRedisTemplate template = new StringRedisTemplate();
-        template.setConnectionFactory(redisConnectionFactory);
-        return template;
-    }
+//    @Bean
+//    @ConditionalOnMissingBean(name = "redisTemplate")
+//    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+//        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+//        redisTemplate.setConnectionFactory(redisConnectionFactory);
+//        FastJsonRedisSerializer<Object> fastJsonRedisSerializer = new FastJsonRedisSerializer<>(Object.class);
+//        // 建议使用这种方式，小范围指定白名单
+//        ParserConfig.getGlobalInstance().addAccept("com.example.demo.");
+//        // 设置值（value）的序列化采用FastJsonRedisSerializer。
+//        redisTemplate.setValueSerializer(fastJsonRedisSerializer);
+//        redisTemplate.setHashValueSerializer(fastJsonRedisSerializer);
+//        // 设置键（key）的序列化采用StringRedisSerializer。
+//        redisTemplate.setKeySerializer(new StringRedisSerializer());
+//        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+//        redisTemplate.afterPropertiesSet();
+//        return redisTemplate;
+//    }
+//    @Bean
+//    @ConditionalOnMissingBean(StringRedisTemplate.class)
+//    public StringRedisTemplate stringRedisTemplate(
+//            RedisConnectionFactory redisConnectionFactory) {
+//        StringRedisTemplate template = new StringRedisTemplate();
+//        template.setConnectionFactory(redisConnectionFactory);
+//        return template;
+//    }
 
     /**
      * 用于缓存注解
      * @param connectionFactory
      * @return
      */
-    @Bean
-    public CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
-        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
-        config = config.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new FastJsonRedisSerializer<>(Object.class)));
-        config = config.entryTtl(Duration.ofSeconds(30)).disableKeyPrefix();
-        Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
-        cacheConfigurations.put("60s",config.entryTtl(Duration.ofSeconds(60)));
-        cacheConfigurations.put("15m",config.entryTtl(Duration.ofMinutes(15)));
-        cacheConfigurations.put("30m",config.entryTtl(Duration.ofMinutes(30)));
-        cacheConfigurations.put("60m",config.entryTtl(Duration.ofHours(1)));
-        cacheConfigurations.put("110m",config.entryTtl(Duration.ofMinutes(60)));
-        cacheConfigurations.put("12h",config.entryTtl(Duration.ofHours(12)));
-        cacheConfigurations.put("24h",config.entryTtl(Duration.ofDays(1)));
-        cacheConfigurations.put("30Day",config.entryTtl(Duration.ofDays(30)));
-        RedisCacheManager cacheManager =  RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(connectionFactory)
-                .cacheDefaults(config).withInitialCacheConfigurations(cacheConfigurations).build();
-        return cacheManager;
-    }
+//    @Bean
+//    public CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
+//        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
+//        config = config.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new FastJsonRedisSerializer<>(Object.class)));
+//        config = config.entryTtl(Duration.ofSeconds(30)).disableKeyPrefix();
+//        Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
+//        cacheConfigurations.put("60s",config.entryTtl(Duration.ofSeconds(60)));
+//        cacheConfigurations.put("15m",config.entryTtl(Duration.ofMinutes(15)));
+//        cacheConfigurations.put("30m",config.entryTtl(Duration.ofMinutes(30)));
+//        cacheConfigurations.put("60m",config.entryTtl(Duration.ofHours(1)));
+//        cacheConfigurations.put("110m",config.entryTtl(Duration.ofMinutes(60)));
+//        cacheConfigurations.put("12h",config.entryTtl(Duration.ofHours(12)));
+//        cacheConfigurations.put("24h",config.entryTtl(Duration.ofDays(1)));
+//        cacheConfigurations.put("30Day",config.entryTtl(Duration.ofDays(30)));
+//        RedisCacheManager cacheManager =  RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(connectionFactory)
+//                .cacheDefaults(config).withInitialCacheConfigurations(cacheConfigurations).build();
+//        return cacheManager;
+//    }
 }

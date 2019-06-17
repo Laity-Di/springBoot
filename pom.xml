@@ -167,6 +167,13 @@
 			<version>4.12</version>
 		</dependency>
 
+		<!--百度云图识别-->
+		<dependency>
+			<groupId>com.baidu.aip</groupId>
+			<artifactId>java-sdk</artifactId>
+			<version>4.11.3</version>
+		</dependency>
+
 	</dependencies>
 
 

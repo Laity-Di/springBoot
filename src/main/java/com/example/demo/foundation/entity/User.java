@@ -2,6 +2,8 @@ package com.example.demo.foundation.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,6 +18,8 @@ import java.util.Date;
  */
 @Data
 @Table(name = "sys_user")
+@Getter
+@Setter
 public class User implements Serializable{
 
     @Id

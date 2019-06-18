@@ -1,11 +1,8 @@
 package com.example.demo.utils;
 
 import com.baidu.aip.imageclassify.AipImageClassify;
-import com.google.gson.JsonObject;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

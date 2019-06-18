@@ -1,12 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.foundation.entity.User;
-import com.example.demo.foundation.model.json.JsonResult;
 import com.example.demo.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.*;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

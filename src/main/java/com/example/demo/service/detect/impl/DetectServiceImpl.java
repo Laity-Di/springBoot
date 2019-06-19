@@ -1,5 +1,6 @@
 package com.example.demo.service.detect.impl;
 
+import com.example.demo.constant.CodeNumber;
 import com.example.demo.service.detect.IDetectService;
 import com.example.demo.utils.BaiduImage;
 import org.slf4j.Logger;
@@ -22,14 +23,70 @@ public class DetectServiceImpl implements IDetectService {
     private static final Logger LOGGER = LoggerFactory.getLogger(DetectServiceImpl.class);
 
     @Override
-    public Map<String, Object> imageDetect(MultipartFile file) {
+    public Map<String, Object> plantDetect(MultipartFile file) {
 
         Map<String, Object> result = new HashMap<>();
         try {
-            result = BaiduImage.imageDetect(file);
+            result = BaiduImage.plantDetect(file);
         }catch (Exception e){
             LOGGER.error("调用BaiduImage.imageDetect出现异常，异常信息为：{}", e.getMessage());
-            result.put("code", "50");
+            result.put("code", CodeNumber.ERROR_CODE);
+        }
+
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> commonDetect(MultipartFile file) {
+
+        Map<String, Object> result = new HashMap<>();
+        try {
+            result = BaiduImage.commonDetect(file);
+        }catch (Exception e){
+            LOGGER.error("调用BaiduImage.commonDetect出现异常，异常信息为：{}", e.getMessage());
+            result.put("code", CodeNumber.ERROR_CODE);
+        }
+
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> dishDetect(MultipartFile file) {
+
+        Map<String, Object> result = new HashMap<>();
+        try {
+            result = BaiduImage.dishDetect(file);
+        }catch (Exception e){
+            LOGGER.error("调用BaiduImage.dishDetect出现异常，异常信息为：{}", e.getMessage());
+            result.put("code", CodeNumber.ERROR_CODE);
+        }
+
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> carDetect(MultipartFile file) {
+
+        Map<String, Object> result = new HashMap<>();
+        try {
+            result = BaiduImage.carDetect(file);
+        }catch (Exception e){
+            LOGGER.error("调用BaiduImage.carDetect出现异常，异常信息为：{}", e.getMessage());
+            result.put("code", CodeNumber.ERROR_CODE);
+        }
+
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> animalDetect(MultipartFile file) {
+
+        Map<String, Object> result = new HashMap<>();
+        try {
+            result = BaiduImage.animalDetect(file);
+        }catch (Exception e){
+            LOGGER.error("调用BaiduImage.animalDetect出现异常，异常信息为：{}", e.getMessage());
+            result.put("code", CodeNumber.ERROR_CODE);
         }
 
         return result;

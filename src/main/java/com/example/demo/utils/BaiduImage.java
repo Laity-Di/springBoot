@@ -1,6 +1,7 @@
 package com.example.demo.utils;
 
 import com.baidu.aip.imageclassify.AipImageClassify;
+import com.example.demo.constant.CodeNumber;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -31,15 +32,13 @@ public class BaiduImage {
 
     private static AipImageClassify client = null;
 
-    private static final String NUM_ZERO = "0";
-
     /**
      * 植物类图片识别
      * @param file
      * @return
      * @throws IOException
      */
-    public static Map<String, Object> imageDetect(MultipartFile file) throws Exception {
+    public static Map<String, Object> plantDetect(MultipartFile file) throws Exception {
 
         Map<String, Object> result = new HashMap<>();
         client = new AipImageClassify(APP_ID, API_KEY, SECRET_KEY);
@@ -55,14 +54,162 @@ public class BaiduImage {
 
         if(res.has("error_code")){
             LOGGER.error("调用云识图接口出现错误，错误信息为：{}", String.valueOf(res));
-            result.put("code", "50");
+            result.put("code", CodeNumber.MAP_ERROR_CODE);
         }else {
             String score = res.getJSONArray("result").getJSONObject(0).getString("score");
-            if(NUM_ZERO.equals(score)){
+            if(CodeNumber.NUM_ZERO.equals(score)){
                 LOGGER.info("调用云识别返回错误，图片识别为非植物：{}", String.valueOf(res));
-                result.put("code", "51");
+                result.put("code", CodeNumber.MAP_PARAM_ERROR_CODE);
             }else{
-                result.put("code","00");
+                result.put("code",CodeNumber.MAP_SUCCESS_CODE);
+                result.put("result", getResultMap(res));
+            }
+
+        }
+        return result;
+    }
+
+    /**
+     * 通用物体识别
+     * @param file
+     * @return
+     * @throws Exception
+     */
+    public static Map<String, Object> commonDetect(MultipartFile file) throws Exception {
+
+        Map<String, Object> result = new HashMap<>();
+        client = new AipImageClassify(APP_ID, API_KEY, SECRET_KEY);
+
+        // 可选：设置网络连接参数
+        client.setConnectionTimeoutInMillis(2000);
+        client.setSocketTimeoutInMillis(60000);
+
+        HashMap<String, String> options = new HashMap();
+        options.put("baike_num", "5");
+
+        JSONObject res = client.advancedGeneral(file.getBytes(), options);
+
+        if(res.has("error_code")){
+            LOGGER.error("调用云识图接口出现错误，错误信息为：{}", String.valueOf(res));
+            result.put("code", CodeNumber.MAP_ERROR_CODE);
+        }else {
+            String score = res.getJSONArray("result").getJSONObject(0).getString("score");
+            if(CodeNumber.NUM_ZERO.equals(score)){
+                LOGGER.info("调用云识别返回错误，图片识别非能识别：{}", String.valueOf(res));
+                result.put("code", CodeNumber.MAP_PARAM_ERROR_CODE);
+            }else{
+                result.put("code",CodeNumber.MAP_SUCCESS_CODE);
+                result.put("result", getResultMap(res));
+            }
+
+        }
+        return result;
+    }
+
+    /**
+     * 菜品识别
+     * @param file
+     * @return
+     * @throws Exception
+     */
+    public static Map<String, Object> dishDetect(MultipartFile file) throws Exception {
+
+        Map<String, Object> result = new HashMap<>();
+        client = new AipImageClassify(APP_ID, API_KEY, SECRET_KEY);
+
+        // 可选：设置网络连接参数
+        client.setConnectionTimeoutInMillis(2000);
+        client.setSocketTimeoutInMillis(60000);
+
+        HashMap<String, String> options = new HashMap();
+        options.put("baike_num", "5");
+
+        JSONObject res = client.dishDetect(file.getBytes(), options);
+
+        if(res.has("error_code")){
+            LOGGER.error("调用云识图接口出现错误，错误信息为：{}", String.valueOf(res));
+            result.put("code", CodeNumber.MAP_ERROR_CODE);
+        }else {
+            String score = res.getJSONArray("result").getJSONObject(0).getString("score");
+            if(CodeNumber.NUM_ZERO.equals(score)){
+                LOGGER.info("调用云识别返回错误，图片识别为非菜品：{}", String.valueOf(res));
+                result.put("code", CodeNumber.MAP_PARAM_ERROR_CODE);
+            }else{
+                result.put("code",CodeNumber.MAP_SUCCESS_CODE);
+                result.put("result", getResultMap(res));
+            }
+
+        }
+        return result;
+    }
+
+    /**
+     * 汽车识别
+     * @param file
+     * @return
+     * @throws Exception
+     */
+    public static Map<String, Object> carDetect(MultipartFile file) throws Exception {
+
+        Map<String, Object> result = new HashMap<>();
+        client = new AipImageClassify(APP_ID, API_KEY, SECRET_KEY);
+
+        // 可选：设置网络连接参数
+        client.setConnectionTimeoutInMillis(2000);
+        client.setSocketTimeoutInMillis(60000);
+
+        HashMap<String, String> options = new HashMap();
+        options.put("baike_num", "5");
+
+        JSONObject res = client.carDetect(file.getBytes(), options);
+
+        if(res.has("error_code")){
+            LOGGER.error("调用云识图接口出现错误，错误信息为：{}", String.valueOf(res));
+            result.put("code", CodeNumber.MAP_ERROR_CODE);
+        }else {
+            String score = res.getJSONArray("result").getJSONObject(0).getString("score");
+            if(CodeNumber.NUM_ZERO.equals(score)){
+                LOGGER.info("调用云识别返回错误，图片识别为非汽车：{}", String.valueOf(res));
+                result.put("code", CodeNumber.MAP_PARAM_ERROR_CODE);
+            }else{
+                result.put("code",CodeNumber.MAP_SUCCESS_CODE);
+                result.put("result", getResultMap(res));
+            }
+
+        }
+        return result;
+    }
+
+    /**
+     * 动物识别
+     * @param file
+     * @return
+     * @throws Exception
+     */
+    public static Map<String, Object> animalDetect(MultipartFile file) throws Exception {
+
+        Map<String, Object> result = new HashMap<>();
+        client = new AipImageClassify(APP_ID, API_KEY, SECRET_KEY);
+
+        // 可选：设置网络连接参数
+        client.setConnectionTimeoutInMillis(2000);
+        client.setSocketTimeoutInMillis(60000);
+
+        HashMap<String, String> options = new HashMap();
+        options.put("baike_num", "5");
+
+        JSONObject res = client.animalDetect(file.getBytes(), options);
+
+        if(res.has("error_code")){
+            LOGGER.error("调用云识图接口出现错误，错误信息为：{}", String.valueOf(res));
+            result.put("code", CodeNumber.MAP_ERROR_CODE);
+        }else {
+            String score = res.getJSONArray("result").getJSONObject(0).getString("score");
+            if(CodeNumber.NUM_ZERO.equals(score)){
+                LOGGER.info("调用云识别返回错误，图片识别为非动物：{}", String.valueOf(res));
+                result.put("code", CodeNumber.MAP_PARAM_ERROR_CODE);
+            }else{
+                result.put("code",CodeNumber.MAP_SUCCESS_CODE);
                 result.put("result", getResultMap(res));
             }
 

@@ -12,5 +12,38 @@ import java.util.Map;
  */
 public interface IDetectService {
 
-    public Map<String, Object> imageDetect(MultipartFile file);
+    /**
+     * 植物识别
+     * @param file
+     * @return
+     */
+    public Map<String, Object> plantDetect(MultipartFile file);
+
+    /**
+     * 通用物体识别
+     * @param file
+     * @return
+     */
+    public Map<String, Object> commonDetect(MultipartFile file);
+
+    /**
+     * 菜品识别
+     * @param file
+     * @return
+     */
+    public Map<String, Object> dishDetect(MultipartFile file);
+
+    /**
+     * 汽车识别
+     * @param file
+     * @return
+     */
+    public Map<String, Object> carDetect(MultipartFile file);
+
+    /**
+     * 动物识别
+     * @param file
+     * @return
+     */
+    public Map<String, Object> animalDetect(MultipartFile file);
 }
